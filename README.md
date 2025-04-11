@@ -1,8 +1,8 @@
 # Projeto e Administração de Banco de Dados
 
-**Nome:** Gabriel da Silva  
-**Matrícula:** 2020123456  
-**Email:** gabriel@email.com  
+**Nome:** Gabriel Azevedo de Araujo
+**Matrícula:** 20200039960 
+**Email:** gabriel.araujo.706@ufrn.edu.br 
 
 ## Tarefas
 
