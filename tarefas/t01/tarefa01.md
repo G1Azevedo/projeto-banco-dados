@@ -9,9 +9,9 @@
 
 - [Consulta Q1 - tarefa01-q01.sql](tarefa01-q01.sql)
 - [Consulta Q4 - tarefa01-q04.sql](tarefa01-q04.sql)
-- [Consulta Q7 - tarefa01-q07.sql](tarefa01-q10.sql)
-- [Consulta Q13 - tarefa01-q13.sql](tarefa01-q14.sql)
-- [Consulta Q16 - tarefa01-q16.sql](tarefa01-q17.sql)
+- [Consulta 10 - tarefa01-q10.sql](tarefa01-q10.sql)
+- [Consulta 14 - tarefa01-q14.sql](tarefa01-q14.sql)
+- [Consulta 17 - tarefa01-q17.sql](tarefa01-q17.sql)
 
 ## Extra
 
