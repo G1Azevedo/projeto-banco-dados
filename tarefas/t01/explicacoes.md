@@ -1,84 +1,39 @@
-# Explicações sobre JOINs e Window Functions
+## JOINs
 
-## NATURAL JOIN
+JOINs são utilizados para combinar registros de duas ou mais tabelas com base em uma condição de correspondência entre elas. São fundamentais para realizar consultas relacionando dados distribuídos em diferentes tabelas de um banco de dados.
 
-O `NATURAL JOIN` é uma junção automática baseada em todas as colunas com o **mesmo nome** nas duas tabelas. Ele elimina a necessidade de especificar a condição do `JOIN`, mas pode causar problemas se existirem colunas com nomes iguais que não deveriam ser comparadas.
+### 🔹 INNER JOIN
 
-### Exemplo:
+Retorna apenas os registros que possuem correspondência entre as tabelas envolvidas. É o tipo de JOIN mais comum e elimina registros que não possuem relacionamento.
 
-```sql
-SELECT *
-FROM funcionario
-NATURAL JOIN departamento;
-Neste exemplo, o PostgreSQL identifica que ambas as tabelas têm a coluna cod_depto e realiza a junção automaticamente com base nela.
+### 🔹 LEFT JOIN (ou LEFT OUTER JOIN)
 
-CROSS JOIN
-O CROSS JOIN retorna o produto cartesiano de duas tabelas, ou seja, cada linha da primeira tabela será combinada com todas as linhas da segunda. Ele é útil quando se quer gerar todas as combinações possíveis entre os dados de duas tabelas.
+Retorna todos os registros da tabela da esquerda e os registros correspondentes da tabela da direita. Quando não há correspondência, os campos da tabela da direita são preenchidos com valores nulos (NULL).
 
-Exemplo:
-sql
-Copiar
-Editar
-SELECT f.nome AS funcionario, p.nome AS projeto
-FROM funcionario f
-CROSS JOIN projeto p;
-Se houver 5 funcionários e 3 projetos, o resultado terá 15 linhas (5 x 3).
+### 🔹 RIGHT JOIN (ou RIGHT OUTER JOIN)
 
-Window Functions no PostgreSQL
-As funções de janela (Window Functions) realizam cálculos sobre um conjunto de linhas relacionadas à linha atual, mantendo a granularidade da consulta (ou seja, sem agrupar os dados como no GROUP BY). São muito úteis para análises, rankings, totais acumulados e comparações entre linhas.
+Retorna todos os registros da tabela da direita e os registros correspondentes da tabela da esquerda. Quando não há correspondência, os campos da tabela da esquerda são preenchidos com valores nulos (NULL).
 
-Estrutura básica:
-sql
-Copiar
-Editar
-função(...) OVER (
-  [PARTITION BY coluna1]
-  [ORDER BY coluna2]
-)
-PARTITION BY: divide os dados em grupos (como um GROUP BY, mas sem agrupar).
+### 🔹 FULL JOIN (ou FULL OUTER JOIN)
 
-ORDER BY: define a ordem para o cálculo da função de janela.
+Retorna todos os registros das duas tabelas, com correspondência sempre que possível. Quando não há correspondência em uma das tabelas, os campos da outra são preenchidos com valores nulos (NULL).
 
-Exemplos de uso
-1. Ranking de funcionários por salário em cada departamento:
-sql
-Copiar
-Editar
-SELECT
-  nome,
-  cod_depto,
-  salario,
-  RANK() OVER (PARTITION BY cod_depto ORDER BY salario DESC) AS rank_salario
-FROM funcionario;
-Este exemplo atribui um ranking aos salários dos funcionários dentro de cada departamento, do maior para o menor.
+---
 
-2. Soma acumulada de salários (sem PARTITION):
-sql
-Copiar
-Editar
-SELECT
-  nome,
-  salario,
-  SUM(salario) OVER (ORDER BY salario) AS soma_acumulada
-FROM funcionario;
-3. Comparando com a linha anterior (LAG()):
-sql
-Copiar
-Editar
-SELECT
-  nome,
-  salario,
-  LAG(salario) OVER (ORDER BY salario) AS salario_anterior
-FROM funcionario;
-Outras funções de janela comuns:
-ROW_NUMBER(): atribui um número sequencial a cada linha.
+## Window Functions
 
-RANK(): atribui ranking com saltos em caso de empates.
+As funções de janela (Window Functions) permitem realizar cálculos sobre um conjunto de linhas relacionadas à linha atual, mantendo todas as linhas no resultado. São muito utilizadas em análises avançadas de dados.
 
-DENSE_RANK(): atribui ranking sem pular números.
+### 🔸 Características das Window Functions
 
-SUM(), AVG(), MAX(), MIN(): funcionam como funções de janela.
+- Não reduzem o número de linhas do resultado.
+- São aplicadas com a cláusula `OVER`, que define a "janela" de análise.
+- Permitem o uso de cláusulas como `PARTITION BY` (para dividir os dados em grupos) e `ORDER BY` (para definir a ordem dentro da partição).
 
-LAG() / LEAD(): acessam valores da linha anterior ou próxima.
+### 🔸 Principais Funções de Janela
 
-As Window Functions são ferramentas poderosas para análise de dados no PostgreSQL, permitindo consultas avançadas com alta performance e sem necessidade de subconsultas complexas.
+- `ROW_NUMBER()`: Numera as linhas dentro de cada partição, com uma sequência única.
+- `RANK()`: Atribui um ranking às linhas, considerando empates (valores iguais recebem o mesmo ranking, com saltos).
+- `DENSE_RANK()`: Similar ao `RANK`, mas sem saltos nos números em caso de empate.
+- Funções agregadas como `SUM()`, `AVG()`, `MIN()`, `MAX()` também podem ser usadas como funções de janela, permitindo agregações por grupo sem perder a granularidade das linhas.
+
