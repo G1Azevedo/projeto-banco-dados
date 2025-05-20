@@ -7,4 +7,4 @@
 ## Tarefas
 
 - [Tarefa 01 - Consultas Aninhadas, Visões e CTEs](tarefas/t01/tarefa01.md)
-- [Tarefa - ODBC e ORM](tarefa-orm.md)
+- [Tarefa - ODBC e ORM](tarefas/orm/tarefa-orm.md)
